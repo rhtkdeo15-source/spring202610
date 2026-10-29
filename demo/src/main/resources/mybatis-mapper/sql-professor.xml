@@ -4,7 +4,7 @@
 
 <mapper namespace="com.example.demo.mapper.ProfessorMapper">
 	<select id="selectProfessorList" parameterType="hashmap" resultType="com.example.demo.model.Professor">
-		SELECT * FROM PROFESSOR
+		SELECT * FROM PROFESSOR WHERE NAME LIKE CONCAT('%', #{keyword}, '%')
 	</select>
 	
 	<!-- 삭제 -->
