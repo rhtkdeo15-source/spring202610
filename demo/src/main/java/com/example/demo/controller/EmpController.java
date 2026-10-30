@@ -17,10 +17,9 @@ import com.google.gson.Gson;
 public class EmpController {
 	@Autowired
 	EmpService empService;
-	// 목록 페이지
+	
 	@RequestMapping("/emp/list.do")
 	public String test(Model model) throws Exception{
-		// System.out.println("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ");
 		
 		return "/emp/list";
 	}

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.EmpMapper;
 import com.example.demo.model.Emp;
-import com.example.demo.model.Professor;
 
 @Service
 public class EmpService {
@@ -17,7 +16,7 @@ public class EmpService {
 	
 	public HashMap<String, Object> getEmpList(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap();
-		List<Emp> list = empMapper.selectEmpList(map);
+		List<Emp> list =  empMapper.selectEmpList(map);
 		
 		resultMap.put("list", list);
 		resultMap.put("result", "success");
@@ -25,11 +24,13 @@ public class EmpService {
 		return resultMap;
 	}
 	
-	public HashMap<String, Object> removeEmp(HashMap<String, Object> map) {
+	public HashMap<String, Object> removeEmp(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap();
 		empMapper.deleteEmp(map);
 		
 		resultMap.put("result", "success");
+		
 		return resultMap;
 	}
+	
 }
