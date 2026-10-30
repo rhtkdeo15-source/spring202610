@@ -27,23 +27,23 @@
 <body>
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
-         <div>
-			<table>
-				<tr>
-					<th>사번</th>
-					<th>이름</th>
-					<th>직급</th>
+        <div>
+            <table>
+                <tr>
+                    <th>사번</th>
+                    <th>이름</th>
+                    <th>직급</th>
                     <th>급여</th>
                     <th>삭제</th>
-				</tr>
-				<tr v-for="item in list">
-					<td>{{item.empNo}}</td>
-					<td>{{item.ename}}</td>
-					<td>{{item.job}}</td>
+                </tr>
+                <tr v-for="item in list">
+                    <td>{{item.empNo}}</td>
+                    <td>{{item.eName}}</td>
+                    <td>{{item.job}}</td>
                     <td>{{item.sal}}</td>
                     <td><button @click="fnRemove(item.empNo)">삭제</button></td>
-				</tr>
-			</table>
+                </tr>
+            </table>
         </div>
     </div>
 </body>
@@ -68,7 +68,6 @@
                     type: "POST",
                     data: param,
                     success: function (data) {
-                        console.log(data);
                         self.list = data.list;
                     }
                 });
@@ -84,8 +83,8 @@
                     type: "POST",
                     data: param,
                     success: function (data) {
-                        alert("삭제");
-                        self.List();
+                        alert("삭제 됨!");
+                        self.fnList();
                     }
                 });
             }
