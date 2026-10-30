@@ -4,7 +4,14 @@
 
 <mapper namespace="com.example.demo.mapper.ProfessorMapper">
 	<select id="selectProfessorList" parameterType="hashmap" resultType="com.example.demo.model.Professor">
-		SELECT * FROM PROFESSOR WHERE NAME LIKE CONCAT('%', #{keyword}, '%')
+		SELECT * 
+		FROM PROFESSOR P
+		INNER JOIN DEPARTMENT D ON P.DEPTNO = D.DEPTNO
+		WHERE NAME LIKE CONCAT('%', #{keyword}, '%') 
+		<if test="deptNo != null and deptNo != ''">
+			AND P.DEPTNO = #{deptNo}
+		</if>
+			
 	</select>
 	
 	<!-- 삭제 -->
@@ -17,6 +24,14 @@
 		INSERT INTO PROFESSOR(PROFNO, NAME, POSITION, PAY, DEPTNO)
 		VALUES(#{profNo},#{name},#{position},#{pay},#{deptNo}) 
 	</insert>
+	
+	<update id="updateProfessor" parameterType="hashmap">
+		UPDATE PROFESSOR SET
+			NAME = #{Name},
+			POSITION = #{position},
+			Pay = #{pay}
+		WHERE PROFNO = #{profNo} 
+	</update>
 	
 	<select id="selectProfessor" parameterType="hashmap" resultType="com.example.demo.model.Professor">
 		SELECT * FROM PROFESSOR WHERE PROFNO = #{profNo}

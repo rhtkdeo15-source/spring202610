@@ -30,8 +30,8 @@
         <div>교수번호 : {{info.profNo}}</div>
         <div>이름 : {{info.Name}}</div>
         <hr>
-        <button @click="fnRemove()">삭제</button>
-        <button>수정</button>
+        <button @click="fnRemove">삭제</button>
+        <button @click="fnEdit">수정</button>
     </div> 
 </body>
 </html>
@@ -53,7 +53,7 @@
                     profNo : self.profNo
                 };
                 $.ajax({
-                    url: "http://localhost:8080/professor/info.box",
+                    url: "http://localhost:8080/professor/info.dox",
                     dataType: "json",
                     type: "POST",
                     data: param,
@@ -78,6 +78,10 @@
                         location.href="list.do"
                     }
                 });
+            },
+            fnEdit : function(){
+                let self = this;
+                pageChange("edit.do", {profNo : self.profNo});
             }
         }, // methods
         mounted() {

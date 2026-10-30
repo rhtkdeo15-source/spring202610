@@ -17,8 +17,10 @@ public class ProfessorService {
 	public HashMap<String, Object> getProfessorList(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap();
 		List<Professor>  list = professorMapper.selectProfessorList(map);
+		List<Professor>  deptList = professorMapper.selectDeptList(map);
 		
 		resultMap.put("list", list);
+		resultMap.put("deptList", deptList);
 		resultMap.put("result", "success");
 		
 		return resultMap;
@@ -56,6 +58,21 @@ public class ProfessorService {
 		
 		resultMap.put("deptList", deptList);
 		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> editProfessor(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		
+		try {
+			professorMapper.updateProfessor(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.err.println(e.getMessage());
+		}		
 		
 		return resultMap;
 	}

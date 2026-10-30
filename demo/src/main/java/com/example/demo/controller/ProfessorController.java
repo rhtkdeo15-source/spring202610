@@ -38,6 +38,13 @@ public class ProfessorController {
 		
 		return "/professor/view";
 	}
+	// 수정 테이블
+	@RequestMapping("/professor/edit.do")
+	public String edit(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		model.addAttribute("profNo", map.get("profNo"));
+		
+		return "/professor/edit";
+	}
 	
 	@RequestMapping(value = "/professor/list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -59,7 +66,7 @@ public class ProfessorController {
 		return new Gson().toJson(resultMap); 
 	}
 	
-	@RequestMapping(value = "/professor/add.box", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/professor/add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
@@ -69,7 +76,7 @@ public class ProfessorController {
 		return new Gson().toJson(resultMap); 
 	}
 	
-	@RequestMapping(value = "/professor/info.box", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/professor/info.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String info(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
@@ -79,12 +86,22 @@ public class ProfessorController {
 		return new Gson().toJson(resultMap); 
 	}
 	
-	@RequestMapping(value = "/professor/dept-list.box", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/professor/dept-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String deptList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		
 		resultMap = professorService.getDeptList(map);
+		
+		return new Gson().toJson(resultMap); 
+	}
+	
+	@RequestMapping(value = "/professor/edit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String edit_(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = professorService.editProfessor(map);
 		
 		return new Gson().toJson(resultMap); 
 	}

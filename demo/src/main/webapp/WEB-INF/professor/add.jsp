@@ -84,7 +84,7 @@
                     deptNo : self.deptNo
                 };
                 $.ajax({
-                    url: "http://localhost:8080/professor/add.box",
+                    url: "http://localhost:8080/professor/add.dox",
                     dataType: "json",
                     type: "POST",
                     data: param,
@@ -100,7 +100,7 @@
                     profNo : self.profNo
                 };
                 $.ajax({
-                    url: "http://localhost:8080/professor/info.box",
+                    url: "http://localhost:8080/professor/info.dox",
                     dataType: "json",
                     type: "POST",
                     data: param,
@@ -118,7 +118,7 @@
                 let self = this;
                 let param = {};
                 $.ajax({
-                    url: "http://localhost:8080/professor/dept-list.box",
+                    url: "http://localhost:8080/professor/dept-list.dox",
                     dataType: "json",
                     type: "POST",
                     data: param,
