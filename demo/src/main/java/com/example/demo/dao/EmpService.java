@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.EmpMapper;
 import com.example.demo.model.Emp;
-import com.example.demo.model.Professor;
 
 @Service
 public class EmpService {
@@ -18,8 +17,9 @@ public class EmpService {
 	public HashMap<String, Object> getEmpList(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap();
 		List<Emp> list =  empMapper.selectEmpList(map);
-		
+		List<Emp> gradeList =  empMapper.selectGradeList(map);
 		resultMap.put("list", list);
+		resultMap.put("gradeList", gradeList);
 		resultMap.put("result", "success");
 		
 		return resultMap;
@@ -37,7 +37,6 @@ public class EmpService {
 	public HashMap<String, Object> addEmp(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
-
 		try {
 			empMapper.insertEmp(map);
 			resultMap.put("result", "success");
@@ -52,7 +51,6 @@ public class EmpService {
 	public HashMap<String, Object> getEmp(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
-
 		try {
 			Emp info = empMapper.selectEmp(map);
 			resultMap.put("info", info);
@@ -64,5 +62,4 @@ public class EmpService {
 		}
 		return resultMap;
 	}
-	
 }

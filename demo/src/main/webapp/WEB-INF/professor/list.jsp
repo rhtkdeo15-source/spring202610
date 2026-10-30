@@ -33,10 +33,19 @@
         </div>
         <div>학과 : 
             <select v-model="deptNo" @change="fnList">
-                <option value="">::선택::</option>
+                <option value="">:: 전체 ::</option>
                 <option v-for="item in deptList" :value="item.deptNo">{{item.dname}}</option>
             </select>
+            ||
+            직급 :
+            <select v-model="position" @change="fnList">
+                <option value="">:: 전체 ::</option>
+                <option value="정교수">정교수</option>
+                <option value="조교수">조교수</option>
+                <option value="전임강사">전임강사</option>
+            </select>
         </div>
+         
         <div>
 			<table>
 				<tr>
@@ -59,6 +68,9 @@
                     <td>{{item.dname}}</td>
                     <td><button @click="fnRemove(item.profNo)">삭제</button></td>
 				</tr>
+                <tr v-if="list.length == 0">
+                    <td colspan="7">조건에 맞는 데이터가 없습니다.</td>
+                </tr>
 			</table>
             <div>
                 <a href="add.do"><button>교수추가</button></a>
@@ -76,7 +88,8 @@
                 list : [],
                 keyword : "",
                 deptList : [],
-                deptNo : ""
+                deptNo : "",
+                position : ""
             };
         },
         methods: {
@@ -85,7 +98,8 @@
                 let self = this;
                 let param = {
                     keyword : self.keyword,
-                    deptNo : self.deptNo
+                    deptNo : self.deptNo,
+                    position : self.position
                 };
                 $.ajax({
                     url: "http://localhost:8080/professor/list.dox",

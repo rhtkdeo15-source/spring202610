@@ -11,7 +11,9 @@
 		<if test="deptNo != null and deptNo != ''">
 			AND P.DEPTNO = #{deptNo}
 		</if>
-			
+		<if test="position != null and position != ''">
+			AND POSITION = #{position}
+		</if>	
 	</select>
 	
 	<!-- 삭제 -->
