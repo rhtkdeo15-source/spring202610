@@ -27,7 +27,6 @@
 <body>
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
-        교수목록
          <div>
             검색어 : <input v-model="keywoed" @keyup.enter="fnList">
             <button @click="fnList">검색</button>
@@ -44,7 +43,9 @@
 				</tr>
 				<tr v-for="item in list">
 					<td>{{item.profNo}}</td>
-					<td>{{item.Name}}</td>
+					<td>
+                        <a href="javascript:;" @click="fnView(item.profNo)">{{item.Name}}</a>
+                    </td>
 					<td>{{item.position}}</td>
                     <td>{{item.pay}}</td>
                     <td>{{item.email}}</td>
@@ -103,7 +104,12 @@
 						
 				    }
 				});
-			}
+			},
+            fnView : function(profNo){
+                // view.do
+                pageChange("view.do", {profNo : profNo});
+
+            }
         }, // methods
         mounted() {
             // 처음 시작할 때 실행되는 부분

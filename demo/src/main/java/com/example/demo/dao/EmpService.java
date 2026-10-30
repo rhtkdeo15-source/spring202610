@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.EmpMapper;
 import com.example.demo.model.Emp;
+import com.example.demo.model.Professor;
 
 @Service
 public class EmpService {
@@ -30,6 +31,37 @@ public class EmpService {
 		
 		resultMap.put("result", "success");
 		
+		return resultMap;
+	}
+
+	public HashMap<String, Object> addEmp(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			empMapper.insertEmp(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.err.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> getEmp(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			Emp info = empMapper.selectEmp(map);
+			resultMap.put("info", info);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.err.println(e.getMessage());
+		}
 		return resultMap;
 	}
 	
