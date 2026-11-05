@@ -10,13 +10,16 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="/js/page-change.js"></script>
     <style>
-        #app{
-            width: 800px;
-            margin: 20px auto;
+
+        #app {
+            width : 800px;
+            margin : 30px auto;
+            margin-bottom: 300px;
         }
-        table{
+        table {
             width: 750px;
         }
+
         table, tr, td, th{
             border : 1px solid black;
             border-collapse: collapse;
@@ -29,29 +32,51 @@
         tr:nth-child(even){
             background-color: azure;
         }
-        #paging{
+        #paging {
             text-align: center;
         }
-        #paging a{
+        #paging a {
             margin-right: 6px;
+            font-size: 20px;
             text-decoration: none;
         }
-        #paging .active{
+        #paging .active {
             font-weight: bold;
-            color: black;
+            color : black;
+        }
+        .table select {
+            margin-bottom : 10px;
+            width: 80px;
+            text-align: center;
+        }
+        .search {
+            text-align: center;
+        }
+        .search input {
+            height: 25px;
         }
     </style>
 </head>
 <body>
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
-        <div>
+        <div class="table">
+            <div class="search">
+                검색어 : <input @keyup.enter="fnList" v-model="keyword" placeholder="검색어를 입력해주세요.">
+                        <button @click="fnList">검색</button>
+            </div>
+            <select v-model="pageSize" @change="fnList">
+                <option value="5">5개씩</option>
+                <option value="10">10개씩</option>
+                <option value="15">15개씩</option>
+                <option value="20">20개씩</option>
+            </select>
             <table>
                 <tr>
-                    <!-- <th>선택</th> -->
-                    <th><input type="checkbox" @click="fnSelectItem" value="true" v-model="checked"></th>
-                    <th>번호</th>
-                    <th>제목</th>
+                    <!-- <th>선택  </th> -->
+                    <th><input type="checkbox" @click="fnSelectItem" value="true" v-model="checked"></th> 
+                    <th>번호  </th>
+                    <th>제목  </th>
                     <th>아이디</th>
                     <th>조회수</th>
                     <th>작성일</th>
@@ -60,7 +85,9 @@
                     <!-- <td><input type="radio" name="board" :value="item.boardNo" v-model="selectItem"></td> -->
                     <td><input @change="fnSelect" type="checkbox" name="board" :value="item.boardNo" v-model="selectItemList"></td>
                     <td>{{item.boardNo}}</td>
-                    <td>{{item.title}}</td>
+                    <td>
+                        <a href="javascript:;" @click="fnView(item.boardNo)">{{item.title}}</a>
+                    </td>
                     <td>{{item.userId}}</td>
                     <td>{{item.cnt}}</td>
                     <td>{{item.cDateTime}}</td>
@@ -68,10 +95,13 @@
             </table>
         </div>
         <div id="paging">
+            <a href="javascript:;" v-if="currentPage != 1" @click="currentPage--; fnList();">◀</a>
             <a @click="currentPage = item; fnList();" :class="{active : currentPage == item}" href="javascript:;" v-for="item in idx">{{item}}</a>
+            <a href="javascript:;" v-if="currentPage != idx" @click="currentPage++; fnList();">▶</a>
         </div>
         <div>
             <!-- <button @click="fnRemove">삭제</button> -->
+            <a href="add.do"><button>글쓰기</button></a>
             <button @click="fnRemoveAll">삭제</button>
         </div>
     </div>
@@ -84,14 +114,15 @@
             return {
                 // 변수 - (key : value)
                 list : [],
-                selectItem : "",  // 라디오 버튼으로 삭제 할 때
-                selectItemList : [], // 체크박스로 삭제 할 때
+                selectItem : "", // 라디오 버튼으로 삭제 할 때
+                selectItemList : [], // 체크박스로 삭제할 때
                 selectFlg : false,
 
                 checked : false,
+                keyword : "", // 검색어
 
                 idx : 1, // 페이징 갯수(최대 페이지 수)
-                pageSize : 5, // 한페이지에 출력할 갯수
+                pageSize : 5, // 한페이지에 출력할 개수
                 currentPage : 1, // 현재 페이지
             };
         },
@@ -100,6 +131,7 @@
             fnList : function () {
                 let self = this;
                 let param = {
+                    keyword : self.keyword,
                     limit : self.pageSize,
                     offset : self.pageSize * (self.currentPage - 1)
                 };
@@ -115,14 +147,14 @@
                     }
                 });
             },
-            fnRemove : function () {
+            fnRemove : function(){
                 let self = this;
                 if(self.selectItem == ""){
                     alert("삭제할 게시글을 선택해주세요.");
                     return;
                 }
 
-                if(!confirm("정말 삭제?")){
+                if(!confirm("정말 삭제???")){
                     return;
                 }
 
@@ -149,7 +181,7 @@
                     return;
                 }
 
-                if(!confirm("정말 삭제?")){
+                if(!confirm("정말 삭제???")){
                     return;
                 }
 
@@ -164,7 +196,7 @@
                     success: function (data) {
                         alert(data.message);
                         self.fnList();
-                        self.selectItem = [];
+                        self.selectItemList = [];
                         self.checked = false;
                     }
                 });
@@ -172,7 +204,6 @@
             fnSelectItem : function(){
                 let self = this;
                 self.selectItemList = [];
-                // self.selectFlg = !self.selectFlg;
 
                 if(!self.checked){
                     self.list.forEach(map => {
@@ -183,6 +214,10 @@
             fnSelect : function(){
                 let self = this;
                 self.checked = self.list.length == self.selectItemList.length;
+            },
+            fnView : function (boardNo){
+                let self = this;
+                pageChange("view.do", {boardNo : boardNo});
             }
         }, // methods
         mounted() {

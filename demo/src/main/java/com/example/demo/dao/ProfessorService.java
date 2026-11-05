@@ -16,13 +16,26 @@ public class ProfessorService {
 	
 	public HashMap<String, Object> getProfessorList(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap();
-		List<Professor>  list = professorMapper.selectProfessorList(map);
-		List<Professor>  deptList = professorMapper.selectDeptList(map);
-		
-		resultMap.put("list", list);
-		resultMap.put("deptList", deptList);
-		resultMap.put("result", "success");
-		
+		try {
+			String limit = (String) map.get("limit");
+			String offset = (String) map.get("offset");
+			
+			map.put("limit", Integer.parseInt(limit));
+			map.put("offset", Integer.parseInt(offset));
+			
+			List<Professor>  list = professorMapper.selectProfessorList(map);
+			List<Professor>  deptList = professorMapper.selectDeptList(map);
+			int count = professorMapper.selectProfessorCount(map);
+			
+			resultMap.put("list", list);
+			resultMap.put("deptList", deptList);
+			resultMap.put("count", count);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
 		return resultMap;
 	}
 	

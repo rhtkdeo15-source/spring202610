@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.DemoApplication;
 import com.example.demo.dao.BoardService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,18 +18,33 @@ import com.google.gson.Gson;
 
 @Controller
 public class BoardController {
-	private final DemoApplication demoApplication;
 	@Autowired
 	BoardService boardService;
-
-	BoardController(DemoApplication demoApplication) {
-		this.demoApplication = demoApplication;
-	}
 	
 	@RequestMapping("/board/list.do")
 	public String test(Model model) throws Exception{
 		
 		return "/board/list";
+	}
+		
+	@RequestMapping("/board/add.do")
+	public String add(Model model) throws Exception{
+		
+		return "/board/add";
+	}
+	
+	@RequestMapping("/board/view.do")
+	public String view(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		
+		model.addAttribute("boardNo", map.get("boardNo"));
+		return "/board/view";
+	}
+	
+	@RequestMapping("/board/edit.do")
+	public String edit(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		
+		model.addAttribute("boardNo", map.get("boardNo"));
+		return "/board/edit";
 	}
 	
 	@RequestMapping(value = "/board/list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -39,6 +53,36 @@ public class BoardController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		
 		resultMap = boardService.getBoardList(map);
+		
+		return new Gson().toJson(resultMap); 
+	}
+	
+	@RequestMapping(value = "/board/edit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String edit2(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = boardService.editBoard(map);
+		
+		return new Gson().toJson(resultMap); 
+	}
+	
+	@RequestMapping(value = "/board/view.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String view2(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = boardService.getBoard(map);
+		
+		return new Gson().toJson(resultMap); 
+	}
+	
+	@RequestMapping(value = "/board/add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = boardService.addBoard(map);
 		
 		return new Gson().toJson(resultMap); 
 	}
@@ -56,7 +100,7 @@ public class BoardController {
 	@RequestMapping(value = "/board/remove-all.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String removeAll(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		String json = map.get("selectItemList").toString();
 		ObjectMapper mapper = new ObjectMapper();
 		List<Object> list = mapper.readValue(json, new TypeReference<List<Object>>(){});
@@ -67,4 +111,6 @@ public class BoardController {
 		
 		return new Gson().toJson(resultMap); 
 	}
+	
+	
 }
