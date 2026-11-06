@@ -31,7 +31,7 @@
             아이디 : <input v-model="userId">
         </div>
         <div>
-            비밀번호 : <input v-model="pwd" type="password"> 
+            비밀번호 : <input type="password" v-model="pwd">
         </div>
         <div>
             <button @click="fnLogin">로그인</button>
@@ -66,8 +66,8 @@
                     success: function (data) {
                         alert(data.message);
                         if(data.loginFlg){
-                            location.href="/professor/list.do"
-                        }
+                            location.href="/professor/list.do";
+                        } 
                     }
                 });
             }

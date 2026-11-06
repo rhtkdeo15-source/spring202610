@@ -14,34 +14,43 @@ public class UserService {
 	@Autowired
 	UserMapper userMapper;
 	
-	public HashMap<String, Object> login(HashMap<String, Object> map) {
+	public HashMap<String, Object> login(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap();
 		
 		try {
-			User user = userMapper.selectUser(map);
+			User user =  userMapper.selectUser(map);
 			if(user != null) {
 				resultMap.put("loginFlg", true);
 				resultMap.put("message", user.getUserName() + "님 환영합니다.");
-			}else {
+			} else {
 				resultMap.put("loginFlg", false);
 				resultMap.put("message", Message.LOGIN_FAIL);
-			}			
+			}
 			resultMap.put("result", "success");
 		} catch (Exception e) {
 			// TODO: handle exception
 			resultMap.put("result", "fail");
 			resultMap.put("message", Message.DB_ERR);
-			System.err.println(e.getMessage());
-		}		
+			System.out.println(e.getMessage());
+		}
 		
 		return resultMap;
 	}
 	
-	public HashMap<String, Object> addUser(HashMap<String, Object> map) {
+	public HashMap<String, Object> addUser(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap();
-		userMapper.insertUser(map);
 		
-		resultMap.put("result", "success");
+		try {
+			int result =  userMapper.insertUser(map);
+	
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			resultMap.put("message", Message.DB_ERR);
+			System.out.println(e.getMessage());
+		}
+		
 		return resultMap;
 	}
 	
