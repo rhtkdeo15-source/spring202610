@@ -38,10 +38,27 @@
 		FROM PRODUCT;
 	</select>
 	
+	<select id="selectProductFile" parameterType="hashmap" resultType="com.example.demo.model.File">
+		SELECT *
+		FROM PRODUCT_FILE
+		WHERE PRODUCT_ID = #{productId}
+	</select>
+	
 	<update id="updateProduct" parameterType="hashmap">
 		UPDATE PRODUCT SET
 			STATUS = 'stop'
 		WHERE PRODUCT_ID = #{productId} 
 	</update>
+	
+	<insert id="insertProduct" parameterType="hashmap" useGeneratedKeys="true" keyColumn="PRODUCT_ID" keyProperty="productId">
+		INSERT INTO PRODUCT(PRODUCT_ID, PRODUCT_NAME, CATEGORY, DESCRIPTION, STATUS)
+		VALUES(NULL, #{productName}, #{category}, #{description}, 'SALE')
+		<!-- userId는 잠깐 하드코딩. 아직 세션 안해서 -->
+	</insert>
+	
+	<insert id="insertProductFile" parameterType="hashmap">
+		INSERT INTO PRODUCT_FILE
+		VALUES(NULL, #{idx}, #{path}, #{fileName}, #{orgName}, #{size}, #{extName})
+	</insert>
 	
 </mapper>

@@ -29,6 +29,18 @@
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
         {{info}}
         <div>
+            <ul>
+                <li v-for="item in fileList">
+                    <img 
+                        :src="item.filePath"
+                        alt="이미지"
+                    />
+                </li>
+            </ul>
+
+        </div>
+
+        <div>
             <button @click="fnRemove">제품 삭제</button>
         </div>
     </div>
@@ -41,7 +53,8 @@
             return {
                 // 변수 - (key : value)
                 productId : "${productId}",
-                info : {}
+                info : {},
+                fileList : {}
             };
         },
         methods: {
@@ -59,6 +72,8 @@
                     success: function (data) {
                         console.log(data);
                        self.info = data.info;
+                       self.fileList = data.fileList;
+                       console.log(self.fileList);
                     }
                 });
             },
