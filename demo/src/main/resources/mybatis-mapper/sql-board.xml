@@ -6,7 +6,8 @@
 
 	<select id="selectBoardList" parameterType="hashmap" resultType="com.example.demo.model.Board">
 		SELECT *
-		FROM TBL_BOARD 
+		FROM TBL_BOARD B
+		INNER JOIN TBL_USER U ON B.USERID = U.USER_ID
 		WHERE TITLE LIKE CONCAT('%', #{keyword}, '%')
 		LIMIT #{limit} OFFSET #{offset}
 	</select>
@@ -19,7 +20,15 @@
 	
 	<select id="selectBoard" parameterType="hashmap" resultType="com.example.demo.model.Board">
 		SELECT *
-		FROM TBL_BOARD 
+		FROM TBL_BOARD B
+		INNER JOIN TBL_USER U ON B.USERID = U.USER_ID
+		WHERE BOARDNO = #{boardNo}
+	</select>
+	
+	<select id="selectBoardCommentList" parameterType="hashmap" resultType="com.example.demo.model.Board">
+		SELECT *
+		FROM TBL_BOARD_COMMENT C
+		INNER JOIN TBL_USER U ON C.USERID = U.USER_ID
 		WHERE BOARDNO = #{boardNo}
 	</select>
 	
@@ -46,6 +55,7 @@
 		VALUES(NULL, #{title}, #{contents}, #{sessionId}, 0, #{kind}, NOW(), NOW())
 		<!-- userId는 잠깐 하드코딩. 아직 세션 안해서 -->
 	</insert>
+
 	
 	<update id="updateBoard" parameterType="hashmap">
 		UPDATE TBL_BOARD SET
@@ -56,8 +66,31 @@
 		WHERE BOARDNO = #{boardNo}
 	</update>
 	
+	<update id="updateCnt">
+		UPDATE TBL_BOARD SET
+			CNT = CNT+1
+		WHERE BOARDNO = #{boardNo}
+	</update>
+	
 	<insert id="insertBoardFile" parameterType="hashmap">
 		INSERT INTO TBL_BOARD_FILE
 		VALUES(NULL, #{idx}, #{path}, #{fileName}, #{orgName}, #{size}, #{extName})
 	</insert>
+		
+	<insert id="insertBoardComment" parameterType="hashmap">
+		INSERT INTO TBL_BOARD_COMMENT
+		VALUES(NULL, #{boardNo}, NULL, #{contents}, #{sessionId}, NOW(), NULL)
+	</insert>
+	
+	<update id="updateBoardComment" parameterType="hashmap">
+		UPDATE TBL_BOARD_COMMENT SET
+			CONTENTS = #{contents}
+		WHERE COMMENTNO = #{commentNo}
+	</update>
+	
+	<delete id="deleteBoaedComment" parameterType="hashmap">
+		DELETE FROM TBL_BOARD_COMMENT
+		WHERE COMMENTNO = #{commentNo}
+	</delete>
+	
 </mapper>
