@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ChartMapper">
+	<!-- 여러개 검색 -->
+	<select id="selectChartList" resultType="com.example.demo.model.Chart">
+		SELECT PRODUCT_NAME, SUM(ORDER_PRICE) AS ORDER_PRICE
+		FROM PRODUCT_ORDERS O
+		INNER JOIN PRODUCT P ON P.PRODUCT_ID = O.PRODUCT_ID
+		GROUP BY PRODUCT_NAME;
+	</select>
+
+</mapper>

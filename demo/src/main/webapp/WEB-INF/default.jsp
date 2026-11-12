@@ -37,6 +37,7 @@
         data() {
             return {
                 // 변수 - (key : value)
+
             };
         },
         methods: {
@@ -50,7 +51,7 @@
                     type: "POST",
                     data: param,
                     success: function (data) {
-
+                        
                     }
                 });
             }
