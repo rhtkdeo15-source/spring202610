@@ -27,7 +27,13 @@
 <body>
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
-        {{list}}
+        <div>
+            <ul>
+                <li v-for="item in list">
+                    <a href="javascript:;" @click="fnView(item.memberId)">{{item.memberName}}</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
@@ -54,6 +60,9 @@
                         self.list = data.list;
                     }
                 });
+            },
+            fnView : function(memberId){
+                pageChange("view.do", {memberId : memberId});
             }
         }, // methods
         mounted() {

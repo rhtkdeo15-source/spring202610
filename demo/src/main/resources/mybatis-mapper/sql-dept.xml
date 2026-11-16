@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.DeptMapper">
+	<!-- 여러개 검색 -->
+	<select id="selectDeptList" parameterType="hashmap" resultType="com.example.demo.model.Dept">
+		SELECT * 
+		FROM DEPARTMENT
+	</select>
+	
+	<select id="selectDept" parameterType="hashmap" resultType="com.example.demo.model.Dept">
+		SELECT * 
+		FROM DEPARTMENT
+		WHERE DEPTNO = #{deptno}
+	</select>
+	
+	<insert id="insertDept" parameterType="hashmap">
+		INSERT INTO DEPARTMENT(DEPTNO, DNAME)
+		VALUES(#{deptno}, #{dname})
+	</insert>
+	
+	<delete id="deleteDept" parameterType="hashmap">
+		DELETE FROM DEPARTMENT
+		WHERE DEPTNO = #{deptno}
+	</delete>
+	
+	<update id="updateDept" parameterType="hashmap">
+		UPDATE DEPARTMENT SET
+			DNAME = #{dname}
+		WHERE DEPTNO = #{deptno}
+	</update>
+</mapper>

@@ -29,4 +29,78 @@ public class MemberService {
 		}
 		return resultMap;
 	}
+	
+	public HashMap<String, Object> getMember(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			
+			Member info = memberMapper.selectMember(map);
+			
+			resultMap.put("info", info);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> addMember(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			
+			int result = memberMapper.insertMember(map);
+			if(result > 0) {
+				
+			}else {
+				
+			}
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> removeMember(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			
+			int result = memberMapper.deleteMember(map);
+			if(result > 0) {
+				
+			}else {
+				
+			}
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> editMember(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			
+			int result = memberMapper.updateMember(map);
+			if(result > 0) {
+				
+			}else {
+				
+			}
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		return resultMap;
+	}
 }
+

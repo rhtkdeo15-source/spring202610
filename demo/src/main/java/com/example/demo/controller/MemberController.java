@@ -34,4 +34,64 @@ public class MemberController {
 		return new Gson().toJson(resultMap); 
 	}
 	
+	@RequestMapping("/member/view.do")
+	public String view(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		model.addAttribute("memberId", map.get("memberId"));
+		return "/member/view";
+	}
+	
+	@RequestMapping(value = "/member/view.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String view1(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = memberService.getMember(map);
+		
+		return new Gson().toJson(resultMap); 
+	}
+	
+	@RequestMapping("/member/add.do")
+	public String add(Model model) throws Exception{
+		
+		return "/member/add";
+	}
+	
+	@RequestMapping(value = "/member/add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = memberService.addMember(map);
+		
+		return new Gson().toJson(resultMap); 
+	}
+	
+	@RequestMapping(value = "/member/remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String remove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = memberService.removeMember(map);
+		
+		return new Gson().toJson(resultMap); 
+	}
+	
+	@RequestMapping("/member/edit.do")
+	public String edit(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		model.addAttribute("memberId", map.get("memberId"));
+		return "/member/edit";
+	}
+	
+	@RequestMapping(value = "/member/edit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String edit1(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = memberService.editMember(map);
+		
+		return new Gson().toJson(resultMap); 
+		
+	}
+	
+	
 }

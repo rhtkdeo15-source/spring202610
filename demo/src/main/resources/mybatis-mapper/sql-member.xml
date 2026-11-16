@@ -6,6 +6,27 @@
 	<select id="selectMemberList" parameterType="hashmap" resultType="com.example.demo.model.Member">
 		SELECT *
 		FROM MEMBER
-		
 	</select>
+	
+	<select id="selectMember" parameterType="hashmap" resultType="com.example.demo.model.Member">
+		SELECT *
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<insert id="insertMember" parameterType="hashmap">
+		INSERT INTO MEMBER(MEMBER_ID, PASSWORD, MEMBER_NAME)
+		VALUES(#{memberId}, #{pwd}, #{memberName})
+	</insert>
+	
+	<delete id="deleteMember" parameterType="hashmap">
+		DELETE FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+	</delete>
+	
+	<update id="updateMember" parameterType="hashmap">
+		UPDATE MEMBER SET
+			MEMBER_NAME = #{memberName}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 </mapper>

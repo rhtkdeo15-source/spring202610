@@ -10,4 +10,12 @@ import com.example.demo.model.Member;
 @Mapper
 public interface MemberMapper {
 	List<Member> selectMemberList(HashMap<String, Object> map);
+	
+	Member selectMember(HashMap<String, Object> map);
+	
+	int insertMember(HashMap<String, Object> map);
+	
+	int deleteMember(HashMap<String, Object> map);
+	
+	int updateMember(HashMap<String, Object> map);
 }
