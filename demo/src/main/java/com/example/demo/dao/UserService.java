@@ -92,4 +92,51 @@ public class UserService {
 		return resultMap;
 	}
 	
+	public HashMap<String, Object> editPassword(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap();
+		
+		try {
+			// 3-1. 비밀번호 암호화(해시)
+			String hashPwd = passwordEncoder.encode((String) map.get("pwd"));
+			System.out.println("해시 전 패스워드"+map.get("pwd"));
+			System.out.println("해시 후 패스워드"+hashPwd);
+			
+			map.put("hashPwd", hashPwd);
+			int result =  userMapper.updatePassword(map);	
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			resultMap.put("message", Message.DB_ERR);
+			System.out.println(e.getMessage());
+		}
+		
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> getUserAuth(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap();
+		
+		try {
+			// 3-1. 비밀번호 암호화(해시)
+			
+			int result =  userMapper.selectUserAuth(map);
+			if(result > 0) {
+				resultMap.put("result", true);
+				resultMap.put("message", "인증 됨");
+			}else {
+				resultMap.put("result", false);
+			}
+			resultMap.put("result", "success");
+			resultMap.put("message", "인증 실패함 확인다시ㄱㄱ");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			resultMap.put("message", Message.DB_ERR);
+			System.out.println(e.getMessage());
+		}
+		
+		return resultMap;
+	}
+	
 }

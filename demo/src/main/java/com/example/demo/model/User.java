@@ -9,6 +9,7 @@ public class User {
 	private String userName;
 	private String addr;
 	private String role;
+	private String phone;
 	
 	// lombok을 이용하면 자동으로 get, set 메소드를 만들어 줘서
 	// lombok는 어노테이션 Data

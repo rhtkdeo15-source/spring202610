@@ -46,9 +46,9 @@
             </option>
         </select>
 
-        <select v-model="dong">
+        <select v-model="dong" @change="fnGetWeather">
             <option value="">:: 선택 ::</option>
-            <option v-for="item in dongList" :value="item.dong">
+            <option v-for="item in dongList" :value="item">
                 {{item.dong}}
             </option>
         </select>
@@ -64,7 +64,7 @@
                 dongList: [],
                 si: "",
                 gu: "",
-                dong: ""
+                dong: {}
             };
         },
 
@@ -142,14 +142,14 @@
                 let self = this;
 
                 let param = {
-                    serviceKey : decodeURIComponent(""),
+                    serviceKey : decodeURIComponent("b824f351a97d93326cfc5141b42fcbd3ffea0ea9d67e2c48748fe3ea0e4e1265"),
                     pageNo : 1,
                     numOfRows : 1000,
                     dataType : "JSON",
-                    base_date : "20261112",
-                    base_time : "1600",
-                    nx : 55,
-                    ny : 125
+                    base_date : "20261113",
+                    base_time : "0900",
+                    nx : self.dong.nx,
+                    ny : self.dong.ny
                 };
 
                 $.ajax({
@@ -159,6 +159,23 @@
                     data: param,
                     success: function (data) {
                         console.log(data);
+                        let items = data.response.body.items.item;
+                        for(let i=0; i<items.length; i++){
+                            let item = items[i];
+                            if(item.category == 'T1H'){
+                                // 기온에 대한 처리
+                                console.log("기온 ==>  " + item.obsrValue);
+                            }
+                            if(item.category == 'RN1'){
+                                // 한시간 강수량 mm
+                                console.log("한시간 강수량  ==>  " + item.obsrValue);
+                            }
+                            if(item.category == 'PTY'){
+                                // 강수량에 대한 처리
+                                // 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4), 빗방울(5), 빗방울눈날림(6), 눈날림(7) 
+                                console.log("강수형태  ==>  " + item.obsrValue);
+                            }
+                        }
                     }
                 });
             }
@@ -167,7 +184,7 @@
         mounted() {
             let self = this;
             self.fnSiList();
-            self.fnGetWeather();
+            // self.fnGetWeather();
         }
     });
 

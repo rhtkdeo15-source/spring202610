@@ -23,4 +23,6 @@ public interface ProductMapper {
 	int insertProductFile(HashMap<String, Object> map);
 	// 첨부파일 목록
 	List<File> selectProductFile(HashMap<String, Object> map);
+	
+	int insertProductOrder(HashMap<String, Object> map);
 }

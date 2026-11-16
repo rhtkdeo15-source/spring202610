@@ -14,6 +14,9 @@ public interface UserMapper {
 	// 회원가입
 	int insertUser(HashMap<String, Object> map);
 	
+	int updatePassword(HashMap<String, Object> map);
+	
+	int selectUserAuth(HashMap<String, Object> map);
 	
 	
 }
